@@ -1,0 +1,413 @@
+.pov-container {
+  width: 100vw;
+  height: 100vh;
+  background: #0a0a0a;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.pov-header {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  padding: 15px 30px;
+  border-bottom: 2px solid #ff0000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.back-btn {
+  padding: 10px 20px;
+  background: #2a2a2a;
+  color: #00ff00;
+  border: 1px solid #00ff00;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+  background: #00ff00;
+  color: #000;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+.pov-header h1 {
+  margin: 0;
+  font-size: 24px;
+  flex: 1;
+  text-align: center;
+}
+
+.emergency-badge {
+  padding: 10px 20px;
+  background: rgba(255, 0, 0, 0.2);
+  border: 2px solid #ff0000;
+  border-radius: 5px;
+  font-weight: bold;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 50%, 100% { opacity: 1; }
+  25%, 75% { opacity: 0.5; }
+}
+
+.pov-content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.pov-sidebar {
+  width: 300px;
+  background: #1a1a1a;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.pov-sidebar.left {
+  border-right: 2px solid #333;
+}
+
+.pov-sidebar.right {
+  border-left: 2px solid #333;
+}
+
+.info-panel {
+  background: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.info-panel h2 {
+  margin: 0 0 15px 0;
+  font-size: 16px;
+  color: #00ff00;
+  border-bottom: 2px solid #00ff00;
+  padding-bottom: 8px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+  padding: 8px 0;
+  border-bottom: 1px solid #333;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  color: #888;
+  font-size: 13px;
+}
+
+.info-value {
+  color: #fff;
+  font-weight: 500;
+}
+
+.urgency-badge {
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.urgency-badge.critical {
+  background: rgba(255, 0, 0, 0.2);
+  color: #ff0000;
+  border: 1px solid #ff0000;
+}
+
+.urgency-badge.urgent {
+  background: rgba(255, 165, 0, 0.2);
+  color: #ffa500;
+  border: 1px solid #ffa500;
+}
+
+.route-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.progress-step {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px;
+  background: #1a1a1a;
+  border-radius: 8px;
+  border: 1px solid #333;
+  opacity: 0.5;
+}
+
+.progress-step.active {
+  opacity: 1;
+  border-color: #00ff00;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+}
+
+.step-icon {
+  font-size: 24px;
+}
+
+.step-text {
+  font-size: 14px;
+}
+
+.signal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.signal-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  background: #1a1a1a;
+  border-radius: 5px;
+}
+
+.signal-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  box-shadow: 0 0 10px currentColor;
+}
+
+.signal-dot.green {
+  background: #00ff00;
+  color: #00ff00;
+}
+
+.signal-dot.yellow {
+  background: #ffff00;
+  color: #ffff00;
+}
+
+.signal-dot.red {
+  background: #ff0000;
+  color: #ff0000;
+}
+
+.pov-canvas {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0a0a0a;
+  padding: 20px;
+  position: relative;
+}
+
+.canvas-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.pov-hud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.hud-top {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.speed-indicator {
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid #00ff00;
+  border-radius: 10px;
+  padding: 15px 25px;
+  text-align: center;
+}
+
+.speed-value {
+  font-size: 36px;
+  font-weight: bold;
+  color: #00ff00;
+  line-height: 1;
+}
+
+.speed-label {
+  font-size: 12px;
+  color: #888;
+  margin-top: 5px;
+}
+
+.eta-display {
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid #ffff00;
+  border-radius: 10px;
+  padding: 15px 25px;
+  text-align: center;
+}
+
+.eta-label {
+  font-size: 12px;
+  color: #888;
+}
+
+.eta-value {
+  font-size: 36px;
+  font-weight: bold;
+  color: #ffff00;
+  line-height: 1;
+}
+
+.hud-bottom {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.next-signal {
+  background: rgba(0, 0, 0, 0.9);
+  border: 2px solid #fff;
+  border-radius: 10px;
+  padding: 15px 30px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 16px;
+}
+
+.signal-distance {
+  color: #00ff00;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.signal-status {
+  padding: 5px 15px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.signal-status.green {
+  background: rgba(0, 255, 0, 0.3);
+  color: #00ff00;
+  border: 1px solid #00ff00;
+}
+
+.signal-status.yellow {
+  background: rgba(255, 255, 0, 0.3);
+  color: #ffff00;
+  border: 1px solid #ffff00;
+}
+
+.signal-status.red {
+  background: rgba(255, 0, 0, 0.3);
+  color: #ff0000;
+  border: 1px solid #ff0000;
+}
+
+.stat-bar {
+  margin: 15px 0;
+}
+
+.stat-bar .stat-label {
+  color: #888;
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+.progress-bar {
+  height: 10px;
+  background: #1a1a1a;
+  border-radius: 5px;
+  overflow: hidden;
+  margin: 5px 0;
+}
+
+.progress-fill {
+  height: 100%;
+  transition: width 0.3s ease;
+  border-radius: 5px;
+}
+
+.stat-bar .stat-value {
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.cleared-count {
+  text-align: center;
+  padding: 20px;
+}
+
+.cleared-number {
+  font-size: 48px;
+  font-weight: bold;
+  color: #00ff00;
+  text-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+}
+
+.cleared-label {
+  font-size: 14px;
+  color: #888;
+  margin-top: 10px;
+}
+
+.status-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  background: #1a1a1a;
+  border-radius: 5px;
+}
+
+.status-item.success {
+  color: #00ff00;
+}
+
+/* Scrollbar styling */
+.pov-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.pov-sidebar::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+.pov-sidebar::-webkit-scrollbar-thumb {
+  background: #00ff00;
+  border-radius: 3px;
+}
+
+.pov-sidebar::-webkit-scrollbar-thumb:hover {
+  background: #00cc00;
+}

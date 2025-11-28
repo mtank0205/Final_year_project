@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#2a5298" />
+    <meta
+      name="description"
+      content="Receive real-time emergency alerts from nearby ambulances"
+    />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" type="image/svg+xml" href="/icon-192.svg" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="Ambulance Alert" />
+    <link rel="apple-touch-icon" href="/icon-192.svg" />
+    <title>Auto Proximity Alert Receiver</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        color: white;
+        min-height: 100vh;
+        padding: 20px;
+      }
+      .container {
+        max-width: 500px;
+        margin: 0 auto;
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 10px;
+        font-size: 24px;
+      }
+      .subtitle {
+        text-align: center;
+        opacity: 0.8;
+        margin-bottom: 30px;
+        font-size: 14px;
+      }
+      .auto-mode {
+        background: rgba(46, 204, 113, 0.3);
+        border: 2px solid #2ecc71;
+        padding: 15px;
+        border-radius: 10px;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .status-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        padding: 20px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+      }
+      .status-indicator {
+        text-align: center;
+        font-size: 64px;
+        margin: 20px 0;
+      }
+      .status-text {
+        text-align: center;
+        font-size: 16px;
+        margin-bottom: 15px;
+      }
+      .alert-card {
+        background: #e74c3c;
+        padding: 20px;
+        border-radius: 15px;
+        margin: 20px 0;
+        display: none;
+        animation: pulse 1s infinite;
+        box-shadow: 0 0 30px rgba(231, 76, 60, 0.5);
+      }
+      .alert-card.active {
+        display: block;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          box-shadow: 0 0 30px rgba(231, 76, 60, 0.5);
+        }
+        50% {
+          transform: scale(1.02);
+          box-shadow: 0 0 50px rgba(231, 76, 60, 0.8);
+        }
+      }
+      .alert-card h2 {
+        margin-bottom: 10px;
+        font-size: 22px;
+        text-align: center;
+      }
+      .alert-info {
+        background: rgba(0, 0, 0, 0.2);
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 15px;
+      }
+      .alert-info p {
+        margin: 8px 0;
+        font-size: 14px;
+      }
+      .distance-bar {
+        height: 40px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        overflow: hidden;
+        margin: 15px 0;
+      }
+      .distance-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #2ecc71, #f39c12, #e74c3c);
+        transition: width 0.5s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 16px;
+      }
+      .log {
+        background: rgba(0, 0, 0, 0.3);
+        padding: 15px;
+        border-radius: 10px;
+        max-height: 200px;
+        overflow-y: auto;
+        font-size: 12px;
+        font-family: "Courier New", monospace;
+        margin-top: 20px;
+      }
+      .instruction {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 15px;
+        border-radius: 10px;
+        margin: 15px 0;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+      .blink {
+        animation: blinker 1s linear infinite;
+      }
+      @keyframes blinker {
+        50% {
+          opacity: 0.3;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🚨 Auto Proximity Receiver</h1>
+      <p class="subtitle">Automatically detects nearby ambulances</p>
+
+      <div class="auto-mode">
+        <h3>✅ AUTO-DETECTION MODE</h3>
+        <p style="margin-top: 10px; font-size: 14px">
+          This device will automatically receive alerts from any ambulance
+          within range - no setup required!
+        </p>
+      </div>
+
+      <div class="status-card">
+        <div class="status-indicator" id="status-icon">🟢</div>
+        <div class="status-text" id="status-text">
+          Listening for nearby ambulances...
+        </div>
+        <div style="text-align: center; font-size: 14px; opacity: 0.8">
+          <div class="blink">● Broadcasting on emergency channel</div>
+        </div>
+      </div>
+
+      <div class="instruction">
+        <strong>📱 How it works:</strong><br />
+        • Keep this page open on your device<br />
+        • Automatically detects ambulances within 500m<br />
+        • No registration or connection needed<br />
+        • Works just like real traffic emergency alerts
+      </div>
+
+      <div class="alert-card" id="alert-card">
+        <h2>🚑 EMERGENCY AMBULANCE!</h2>
+        <p
+          style="
+            font-size: 18px;
+            margin: 10px 0;
+            text-align: center;
+            font-weight: bold;
+          "
+        >
+          GIVE WAY IMMEDIATELY
+        </p>
+
+        <div class="distance-bar">
+          <div class="distance-fill" id="distance-fill" style="width: 50%">
+            <span id="distance-text">250m away</span>
+          </div>
+        </div>
+
+        <div class="alert-info">
+          <p>
+            <strong>🆔 Ambulance:</strong> <span id="ambulance-id">---</span>
+          </p>
+          <p>
+            <strong>⚡ Speed:</strong> <span id="ambulance-speed">---</span>
+          </p>
+          <p>
+            <strong>📍 Direction:</strong>
+            <span id="ambulance-direction">---</span>
+          </p>
+          <p><strong>🕐 Detected:</strong> <span id="last-update">---</span></p>
+        </div>
+      </div>
+
+      <div class="status-card">
+        <h3 style="margin-bottom: 10px">📊 Statistics</h3>
+        <p>Alerts Received: <strong id="alert-count">0</strong></p>
+        <p>Last Detection: <strong id="last-detection">Never</strong></p>
+        <p>Broadcast Channel: <strong>Emergency-500m</strong></p>
+      </div>
+
+      <div class="log" id="log">
+        Auto-detection active. Waiting for nearby ambulances...
+      </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+      let alertCount = 0;
+      let notificationPermissionGranted = false;
+
+      // Automatically request notification permission on load
+      if ("Notification" in window && Notification.permission === "default") {
+        Notification.requestPermission().then((permission) => {
+          if (permission === "granted") {
+            notificationPermissionGranted = true;
+            addLog("✅ Notification permission granted automatically");
+          }
+        });
+      } else if (
+        "Notification" in window &&
+        Notification.permission === "granted"
+      ) {
+        notificationPermissionGranted = true;
+      }
+
+      function addLog(message) {
+        const log = document.getElementById("log");
+        const timestamp = new Date().toLocaleTimeString();
+        log.innerHTML += `\n[${timestamp}] ${message}`;
+        log.scrollTop = log.scrollHeight;
+      }
+
+      function calculateDistance(lat1, lng1, lat2, lng2) {
+        const R = 6371000; // Earth's radius in meters
+        const dLat = ((lat2 - lat1) * Math.PI) / 180;
+        const dLng = ((lng2 - lng1) * Math.PI) / 180;
+        const a =
+          Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.cos((lat1 * Math.PI) / 180) *
+            Math.cos((lat2 * Math.PI) / 180) *
+            Math.sin(dLng / 2) *
+            Math.sin(dLng / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return Math.round(R * c);
+      }
+
+      function showAlert(ambulanceData) {
+        const alertCard = document.getElementById("alert-card");
+        alertCard.classList.add("active");
+
+        // Calculate simulated distance (in real app, use GPS)
+        const distance = Math.floor(Math.random() * 500);
+        const distancePercent = Math.min(100, (distance / 500) * 100);
+
+        document.getElementById("ambulance-id").textContent = ambulanceData.id;
+        document.getElementById("ambulance-speed").textContent =
+          ambulanceData.speed ? `${ambulanceData.speed} km/h` : "---";
+        document.getElementById("ambulance-direction").textContent =
+          ambulanceData.direction || "Unknown";
+        document.getElementById("last-update").textContent = new Date(
+          ambulanceData.timestamp
+        ).toLocaleTimeString();
+        document.getElementById("last-detection").textContent =
+          new Date().toLocaleTimeString();
+
+        document.getElementById("distance-fill").style.width = `${
+          100 - distancePercent
+        }%`;
+        document.getElementById(
+          "distance-text"
+        ).textContent = `${distance}m away`;
+
+        // Auto notification (no user interaction needed)
+        if (
+          notificationPermissionGranted ||
+          Notification.permission === "granted"
+        ) {
+          const notification = new Notification(
+            "🚨 EMERGENCY AMBULANCE NEARBY!",
+            {
+              body: `Ambulance ${ambulanceData.id} detected ${distance}m away. Give way immediately!`,
+              icon: "/favicon.ico",
+              badge: "🚑",
+              vibrate: [300, 100, 300, 100, 300],
+              tag: "ambulance-proximity",
+              requireInteraction: false,
+              silent: false,
+            }
+          );
+
+          // Auto-close notification after 10 seconds
+          setTimeout(() => notification.close(), 10000);
+        }
+
+        // Strong vibration pattern
+        if ("vibrate" in navigator) {
+          navigator.vibrate([300, 100, 300, 100, 300, 100, 500]);
+        }
+
+        alertCount++;
+        document.getElementById("alert-count").textContent = alertCount;
+
+        addLog(
+          `🚨 ALERT! ${ambulanceData.id} detected at ${distance}m - ${
+            ambulanceData.direction || "Unknown"
+          } direction`
+        );
+
+        // Play alert sound (if available)
+        playAlertSound();
+
+        // Auto-hide after 8 seconds
+        setTimeout(() => {
+          alertCard.classList.remove("active");
+          addLog(`✓ Alert cleared for ${ambulanceData.id}`);
+        }, 8000);
+      }
+
+      function playAlertSound() {
+        try {
+          // Create beep sound using Web Audio API
+          const audioContext = new (window.AudioContext ||
+            window.webkitAudioContext)();
+          const oscillator = audioContext.createOscillator();
+          const gainNode = audioContext.createGain();
+
+          oscillator.connect(gainNode);
+          gainNode.connect(audioContext.destination);
+
+          oscillator.frequency.value = 800; // Hz
+          oscillator.type = "sine";
+
+          gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+          gainNode.gain.exponentialRampToValueAtTime(
+            0.01,
+            audioContext.currentTime + 0.5
+          );
+
+          oscillator.start(audioContext.currentTime);
+          oscillator.stop(audioContext.currentTime + 0.5);
+        } catch (e) {
+          // Sound not critical, ignore errors
+        }
+      }
+
+      // Socket connection - auto-connect, no registration needed
+      socket.on("connect", () => {
+        addLog("✅ Connected to emergency broadcast network");
+        document.getElementById("status-text").textContent =
+          "Connected - Listening for ambulances...";
+      });
+
+      socket.on("disconnect", () => {
+        addLog("⚠️ Disconnected from broadcast network");
+        document.getElementById("status-icon").textContent = "🔴";
+        document.getElementById("status-text").textContent =
+          "Connection lost - Reconnecting...";
+      });
+
+      socket.on("reconnect", () => {
+        addLog("✅ Reconnected to broadcast network");
+        document.getElementById("status-icon").textContent = "🟢";
+        document.getElementById("status-text").textContent =
+          "Connected - Listening for ambulances...";
+      });
+
+      // Listen for ANY ambulance broadcast (no registration needed)
+      socket.on("ambulance:update", (data) => {
+        if (data.emergency) {
+          showAlert(data);
+        }
+      });
+
+      socket.on("ambulance:proximity-broadcast", (data) => {
+        showAlert(data);
+      });
+
+      // Simulate being in "traffic" - listen to public broadcast channel
+      socket.on("ambulance:public-alert", (data) => {
+        showAlert(data);
+      });
+
+      addLog("🚀 Auto-detection system active");
+      addLog("📡 Scanning for nearby ambulances...");
+      addLog("⚡ No setup required - alerts will appear automatically");
+
+      // ========== PWA SERVICE WORKER REGISTRATION ==========
+      let swRegistration = null;
+
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+          .register("/service-worker.js")
+          .then((registration) => {
+            swRegistration = registration;
+            addLog(
+              "✅ PWA installed - Will receive alerts even when app is closed!"
+            );
+            console.log("[PWA] Service Worker registered:", registration);
+
+            // Request notification permission
+            if (
+              "Notification" in window &&
+              Notification.permission === "default"
+            ) {
+              Notification.requestPermission().then((permission) => {
+                if (permission === "granted") {
+                  addLog("✅ Notifications enabled - Background alerts active");
+                  showInstallPrompt();
+                }
+              });
+            }
+
+            // Listen for updates
+            registration.addEventListener("updatefound", () => {
+              const newWorker = registration.installing;
+              newWorker.addEventListener("statechange", () => {
+                if (
+                  newWorker.state === "installed" &&
+                  navigator.serviceWorker.controller
+                ) {
+                  addLog("🔄 New version available - Reload to update");
+                }
+              });
+            });
+          })
+          .catch((error) => {
+            console.error("[PWA] Service Worker registration failed:", error);
+            addLog("⚠️ PWA installation failed - Using online mode only");
+          });
+      } else {
+        addLog(
+          "⚠️ Service Worker not supported - Background alerts unavailable"
+        );
+      }
+
+      // Show install prompt banner
+      let deferredPrompt = null;
+
+      window.addEventListener("beforeinstallprompt", (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        showInstallPrompt();
+      });
+
+      function showInstallPrompt() {
+        if (deferredPrompt) {
+          const installBanner = document.createElement("div");
+          installBanner.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2ecc71;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            z-index: 9999;
+            cursor: pointer;
+            animation: slideUp 0.3s ease;
+          `;
+          installBanner.innerHTML =
+            "📱 Install App for Background Alerts - Tap Here";
+
+          installBanner.onclick = async () => {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === "accepted") {
+              addLog(
+                "✅ App installed! You will now receive alerts even when closed"
+              );
+            }
+            deferredPrompt = null;
+            installBanner.remove();
+          };
+
+          document.body.appendChild(installBanner);
+
+          setTimeout(() => {
+            if (installBanner.parentElement) {
+              installBanner.style.transition = "opacity 0.5s";
+              installBanner.style.opacity = "0";
+              setTimeout(() => installBanner.remove(), 500);
+            }
+          }, 10000);
+        }
+      }
+
+      // Send alerts to service worker for background notifications
+      function sendToServiceWorker(ambulanceData) {
+        if (swRegistration && swRegistration.active) {
+          swRegistration.active.postMessage({
+            type: "AMBULANCE_ALERT",
+            payload: ambulanceData,
+          });
+        }
+      }
+
+      // Override showAlert to also notify service worker
+      const originalShowAlert = showAlert;
+      showAlert = function (ambulanceData) {
+        originalShowAlert(ambulanceData);
+        sendToServiceWorker(ambulanceData);
+      };
+    </script>
+  </body>
+</html>

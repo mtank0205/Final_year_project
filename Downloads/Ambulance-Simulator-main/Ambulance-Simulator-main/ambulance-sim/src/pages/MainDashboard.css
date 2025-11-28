@@ -1,0 +1,226 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+  background: #0a0e27;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.sidebar {
+  width: 320px;
+  background: linear-gradient(180deg, #1a1f3a 0%, #0f1424 100%);
+  color: #ffffff;
+  padding: 20px;
+  overflow-y: auto;
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.dashboard-title {
+  font-size: 24px;
+  margin-bottom: 30px;
+  text-align: center;
+  color: #ff4444;
+  text-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
+}
+
+.ambulance-list h2,
+.mission-status h2,
+.signal-status h2 {
+  font-size: 16px;
+  margin-bottom: 15px;
+  color: #8ec3b9;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.mission-status {
+  margin-top: 30px;
+}
+
+.mission-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  margin-bottom: 10px;
+  background: rgba(42, 48, 78, 0.6);
+  border-radius: 6px;
+  border-left: 3px solid transparent;
+}
+
+.status-indicator {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: pulse 2s infinite;
+}
+
+.status-indicator.critical {
+  background: #ff0000;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+  border-color: #ff0000;
+}
+
+.status-indicator.urgent {
+  background: #ff6b00;
+  box-shadow: 0 0 10px rgba(255, 107, 0, 0.7);
+}
+
+.status-indicator.stable {
+  background: #ffd700;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+}
+
+.mission-details {
+  flex: 1;
+}
+
+.patient-name {
+  font-size: 14px;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 3px;
+}
+
+.patient-status {
+  font-size: 12px;
+  color: #8ec3b9;
+}
+
+.ambulance-card {
+  background: rgba(42, 48, 78, 0.8);
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-left: 4px solid #ff4444;
+}
+
+.ambulance-card:hover {
+  background: rgba(52, 58, 88, 0.9);
+  transform: translateX(5px);
+  box-shadow: 0 4px 15px rgba(255, 68, 68, 0.3);
+}
+
+.ambulance-card h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.ambulance-card .status {
+  font-size: 14px;
+  color: #8ec3b9;
+  margin-bottom: 5px;
+  text-transform: capitalize;
+}
+
+.ambulance-card .mission-info {
+  font-size: 12px;
+  color: #aabbcc;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.view-pov-btn {
+  background: #ff4444;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.view-pov-btn:hover {
+  background: #ff6666;
+}
+
+.signal-status {
+  margin-top: 30px;
+}
+
+.signal-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.signal-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  background: rgba(42, 48, 78, 0.6);
+  border-radius: 4px;
+}
+
+.signal-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+.signal-dot.red {
+  background: #ff0000;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+}
+
+.signal-dot.green {
+  background: #00ff00;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.map-container {
+  flex: 1;
+  position: relative;
+}
+
+.loading-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: #0a0e27;
+  color: #ffffff;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(255, 68, 68, 0.3);
+  border-top-color: #ff4444;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-screen p {
+  font-size: 18px;
+  color: #8ec3b9;
+}

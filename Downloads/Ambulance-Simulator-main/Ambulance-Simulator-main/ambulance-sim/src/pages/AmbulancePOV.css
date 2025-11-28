@@ -1,0 +1,235 @@
+/* Google Maps Navigation Style */
+
+.nav-container {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Roboto', 'Segoe UI', sans-serif;
+}
+
+.nav-instruction-banner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  padding: 15px 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.instruction-text {
+  font-size: 18px;
+  font-weight: 500;
+  color: #202124;
+}
+
+.nav-map-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.nav-speedometer {
+  position: absolute;
+  left: 20px;
+  bottom: 140px;
+  background: white;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  z-index: 900;
+}
+
+.speed-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #202124;
+  line-height: 1;
+}
+
+.speed-unit {
+  font-size: 11px;
+  color: #5f6368;
+  margin-top: 2px;
+}
+
+.nav-map-controls {
+  position: absolute;
+  right: 20px;
+  bottom: 140px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 900;
+}
+
+.nav-control-btn {
+  width: 48px;
+  height: 48px;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  color: #5f6368;
+  transition: all 0.2s;
+}
+
+.nav-control-btn:hover {
+  background: #f8f9fa;
+  transform: scale(1.05);
+}
+
+.nav-control-btn:active {
+  background: #e8eaed;
+  transform: scale(0.95);
+}
+
+.nav-bottom-panel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  padding: 16px 20px;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  z-index: 1000;
+}
+
+.nav-close-btn {
+  width: 40px;
+  height: 40px;
+  background: #f1f3f4;
+  border: none;
+  border-radius: 50%;
+  font-size: 20px;
+  color: #5f6368;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.nav-close-btn:hover {
+  background: #e8eaed;
+}
+
+.nav-eta-container {
+  flex: 1;
+}
+
+.nav-eta-main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.nav-eta-time {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1a73e8;
+  line-height: 1;
+}
+
+.nav-leaf-icon {
+  font-size: 20px;
+}
+
+.nav-eta-details {
+  font-size: 14px;
+  color: #5f6368;
+}
+
+.nav-route-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.nav-action-btn {
+  width: 44px;
+  height: 44px;
+  background: #f1f3f4;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #5f6368;
+  transition: background 0.2s;
+}
+
+.nav-action-btn:hover {
+  background: #e8eaed;
+}
+
+.loading-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: white;
+  color: #202124;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #e8eaed;
+  border-top-color: #1a73e8;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-screen p {
+  font-size: 18px;
+  color: #5f6368;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nav-eta-time {
+    font-size: 28px;
+  }
+  
+  .nav-speedometer {
+    width: 60px;
+    height: 60px;
+    left: 16px;
+    bottom: 120px;
+  }
+  
+  .speed-value {
+    font-size: 24px;
+  }
+  
+  .nav-map-controls {
+    right: 16px;
+    bottom: 120px;
+  }
+}

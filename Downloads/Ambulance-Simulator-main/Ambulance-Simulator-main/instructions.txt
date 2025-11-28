@@ -1,0 +1,47 @@
+Project Overview:
+
+Goal: Develop a simulation for an ambulance route optimization system that dynamically adjusts traffic signals in real-time. The MVP will focus on a single ambulance and basic route optimization using Google Maps.
+
+Step-by-Step Instructions:
+
+Project Setup:
+
+Initialize Project: Create a new directory for your project and run npm init to initialize a new Node.js project.
+
+Set Up Frontend: Install React (or another frontend framework of your choice) using npx create-react-app.
+
+Folder Structure: Organize your project into folders like /src, components, and public.
+
+Google Maps Integration:
+
+API Key: Obtain a Google Maps API key from the Google Cloud Platform.
+
+Integrate Maps: Install the @react-google-maps/api package to easily integrate Google Maps into your React app.
+
+Basic Map Display: Create a simple component that displays the map centered on a default location.
+
+Basic Simulation:
+
+Mock Data: Create mock GPS coordinates for the ambulance’s start and end points.
+
+Route Calculation: Use the Google Maps Directions API to calculate the route between the start and end points.
+
+Traffic Signal Simulation: Create a simple logic to change the traffic signal status based on the ambulance’s proximity to intersections.
+
+User Interface:
+
+Dashboard Layout: Design a simple dashboard that displays the map and the ambulance’s route.
+
+Real-Time Updates: Implement basic real-time updates to show how the ambulance progresses along the route.
+
+Testing the MVP:
+
+Run the Application: Test the basic functionality locally to ensure the map displays correctly and that the route and traffic signals update as expected.
+
+Post-MVP Enhancements:
+
+Multiple Ambulances: Add logic to handle multiple ambulances and prioritize their routes.
+
+Advanced AI Predictions: Integrate machine learning models to predict traffic patterns and optimize routes further.
+
+Public Engagement: Develop a companion app for citizens to receive alerts and help clear the way.

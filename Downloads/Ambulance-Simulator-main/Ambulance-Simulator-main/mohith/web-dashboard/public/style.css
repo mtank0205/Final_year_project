@@ -1,0 +1,194 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  height: 100%;
+}
+
+#topbar {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 15px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  position: relative;
+  z-index: 1000;
+}
+
+#topbar h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+#map {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  right: 350px;
+  bottom: 0;
+  z-index: 1;
+}
+
+#panel {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  width: 350px;
+  bottom: 0;
+  background: white;
+  overflow-y: auto;
+  padding: 20px;
+  box-shadow: -2px 0 8px rgba(0,0,0,0.1);
+  z-index: 10;
+  pointer-events: auto;
+}
+
+#panel h2 {
+  color: #667eea;
+  border-bottom: 2px solid #667eea;
+  padding-bottom: 8px;
+  margin-top: 20px;
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+#panel h2:first-of-type {
+  margin-top: 0;
+}
+
+#discoverBtn {
+  width: 100%;
+  padding: 10px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#discoverBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+#discoverBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+#lightsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#lightsList li {
+  padding: 8px;
+  margin-bottom: 6px;
+  background: #f5f5f5;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+#ambulanceList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#ambulanceList li {
+  padding: 8px;
+  margin-bottom: 6px;
+  background: #f5f5f5;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.notification {
+  background: #ffefc7;
+  padding: 8px;
+  margin: 6px 0;
+  border-left: 4px solid #ff9800;
+}
+
+/* Make markers more visible */
+.traffic-light-marker, .hospital-marker, .ambulance-marker {
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+  cursor: pointer;
+}
+
+.traffic-light-marker:hover, .hospital-marker:hover, .ambulance-marker:hover {
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.7));
+  transform: scale(1.1);
+}
+
+/* Leaflet routing instructions hidden */
+.leaflet-routing-container {
+  display: none;
+}
+
+/* Ambulance route lines - ensure they stay visible and don't blink */
+.leaflet-overlay-pane svg path {
+  pointer-events: stroke !important;
+}
+
+/* Individual ambulance routes with different styles - ENHANCED VISIBILITY */
+.route-AMB001 {
+  stroke: #e74c3c !important;
+  stroke-width: 12 !important;
+  stroke-opacity: 1 !important;
+  fill: none !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+  z-index: 1000 !important;
+}
+
+.route-AMB002 {
+  stroke: #3498db !important;
+  stroke-width: 12 !important;
+  stroke-opacity: 1 !important;
+  fill: none !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+  z-index: 1000 !important;
+}
+
+.route-AMB003 {
+  stroke: #2ecc71 !important;
+  stroke-width: 12 !important;
+  stroke-opacity: 1 !important;
+  fill: none !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+  z-index: 1000 !important;
+}
+
+/* Make routes glow significantly for better visibility */
+.leaflet-overlay-pane svg path[class*="route-"] {
+  filter: drop-shadow(0 0 8px rgba(255,255,255,0.8)) drop-shadow(0 0 15px currentColor);
+  transition: none !important; /* Prevent any blinking transitions */
+}
+
+.leaflet-overlay-pane svg path[class*="route-"]:hover {
+  stroke-width: 14 !important;
+  filter: drop-shadow(0 0 10px rgba(255,255,255,1)) drop-shadow(0 0 20px currentColor);
+}
+
+/* Signal direction labels */
+.signal-label {
+  background: rgba(0, 0, 0, 0.7) !important;
+  border: none !important;
+  color: #fff !important;
+  font-weight: bold !important;
+  font-size: 11px !important;
+  padding: 2px 6px !important;
+  border-radius: 3px !important;
+}
+
+.center {
+  text-align: center;
+  padding: 20px;
+}

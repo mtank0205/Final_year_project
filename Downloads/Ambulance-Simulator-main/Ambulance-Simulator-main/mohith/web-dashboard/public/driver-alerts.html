@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Driver Alerts</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+  <body>
+    <div class="center">
+      <h2>Driver Alert Client</h2>
+      <p id="status">Initializing...</p>
+      <button id="allowNotif">Enable Notifications</button>
+    </div>
+    <audio id="alertSound" src="/alert.wav" preload="auto"></audio>
+    <script src="/driver-client.js"></script>
+  </body>
+</html>

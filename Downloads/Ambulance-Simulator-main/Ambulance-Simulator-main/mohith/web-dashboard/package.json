@@ -1,0 +1,24 @@
+{
+  "name": "iot-ambulance-dashboard",
+  "version": "1.0.0",
+  "description": "IoT ambulance traffic clearance system backend and dashboard",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "sim:ambulance": "node simulator/ambulance-simulator.js",
+    "sim:multi": "node simulator/multi-ambulance-simulator.js",
+    "sim:traffic": "node simulator/traffic-light-simulator.js",
+    "sim:drivers": "node simulator/driver-simulator.js",
+    "sim:vehicles": "node simulator/vehicle-traffic-simulator.js",
+    "sim:all": "npm run sim:multi & npm run sim:traffic & npm run sim:drivers"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.18.2",
+    "socket.io": "^4.7.2",
+    "socket.io-client": "^4.7.2"
+  }
+}

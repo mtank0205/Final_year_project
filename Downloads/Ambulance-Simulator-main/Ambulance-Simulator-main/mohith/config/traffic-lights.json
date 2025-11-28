@@ -1,0 +1,176 @@
+[
+  {
+    "id": "INT001",
+    "name": "Koramangala 5th Block Junction",
+    "lat": 12.938510275,
+    "lng": 77.63272570000001,
+    "signals": [
+      {
+        "id": "TL1_W",
+        "direction": "West",
+        "lat": 12.9385736,
+        "lng": 77.6325528
+      },
+      {
+        "id": "TL1_E",
+        "direction": "East",
+        "lat": 12.9384443,
+        "lng": 77.6328936
+      },
+      {
+        "id": "TL1_S",
+        "direction": "South",
+        "lat": 12.9383568,
+        "lng": 77.6328208
+      },
+      {
+        "id": "TL1_N",
+        "direction": "North",
+        "lat": 12.9386664,
+        "lng": 77.6326356
+      }
+    ]
+  },
+  {
+    "id": "INT002",
+    "name": "Koramangala 6th Block Junction",
+    "lat": 12.93727625,
+    "lng": 77.626935275,
+    "signals": [
+      {
+        "id": "TL2_E",
+        "direction": "East",
+        "lat": 12.9373044,
+        "lng": 77.6270752
+      },
+      {
+        "id": "TL2_N",
+        "direction": "North",
+        "lat": 12.9374466,
+        "lng": 77.6268399
+      },
+      {
+        "id": "TL2_S",
+        "direction": "South",
+        "lat": 12.9371207,
+        "lng": 77.6270122
+      },
+      {
+        "id": "TL2_W",
+        "direction": "West",
+        "lat": 12.9372333,
+        "lng": 77.6268138
+      }
+    ]
+  },
+  {
+    "id": "INT003",
+    "name": "Sony World Junction",
+    "lat": 12.935838666666667,
+    "lng": 77.61531246666667,
+    "signals": [
+      {
+        "id": "TL3_S",
+        "direction": "South",
+        "lat": 12.935775,
+        "lng": 77.6153649
+      },
+      {
+        "id": "TL3_W",
+        "direction": "West",
+        "lat": 12.9358762,
+        "lng": 77.6152156
+      },
+      {
+        "id": "TL3_E",
+        "direction": "East",
+        "lat": 12.9358648,
+        "lng": 77.6153569
+      }
+    ]
+  },
+  {
+    "id": "INT004",
+    "name": "Koramangala 7th Block Junction",
+    "lat": 12.934443774999998,
+    "lng": 77.62967005,
+    "signals": [
+      {
+        "id": "TL4_S",
+        "direction": "South",
+        "lat": 12.9342983,
+        "lng": 77.6297442
+      },
+      {
+        "id": "TL4_N",
+        "direction": "North",
+        "lat": 12.9345563,
+        "lng": 77.629595
+      },
+      {
+        "id": "TL4_E",
+        "direction": "East",
+        "lat": 12.9345296,
+        "lng": 77.6297801
+      },
+      {
+        "id": "TL4_W",
+        "direction": "West",
+        "lat": 12.9343909,
+        "lng": 77.6295609
+      }
+    ]
+  },
+  {
+    "id": "INT005",
+    "name": "Jyoti Nivas College Junction",
+    "lat": 12.934409500000001,
+    "lng": 77.61243143333333,
+    "signals": [
+      {
+        "id": "TL5_N",
+        "direction": "North",
+        "lat": 12.9345385,
+        "lng": 77.6123203
+      },
+      {
+        "id": "TL5_S",
+        "direction": "South",
+        "lat": 12.9342159,
+        "lng": 77.6123554
+      },
+      {
+        "id": "TL5_E",
+        "direction": "East",
+        "lat": 12.9344741,
+        "lng": 77.6126186
+      }
+    ]
+  },
+  {
+    "id": "INT006",
+    "name": "Koramangala Water Tank Junction",
+    "lat": 12.931881275,
+    "lng": 77.61349355,
+    "signals": [
+      {
+        "id": "TL6_W",
+        "direction": "West",
+        "lat": 12.9319553,
+        "lng": 77.613411
+      },
+      {
+        "id": "TL6_E",
+        "direction": "East",
+        "lat": 12.9319484,
+        "lng": 77.6137122
+      },
+      {
+        "id": "TL6_S",
+        "direction": "South",
+        "lat": 12.93179,
+        "lng": 77.6134078
+      }
+    ]
+  }
+]

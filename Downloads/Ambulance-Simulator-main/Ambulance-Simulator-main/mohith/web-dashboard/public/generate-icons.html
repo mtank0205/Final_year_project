@@ -1,0 +1,66 @@
+<!-- Simple placeholder icon generator -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Generate Icons</title>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <script>
+      const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
+
+      sizes.forEach((size) => {
+        const canvas = document.createElement("canvas");
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext("2d");
+
+        // Background gradient
+        const gradient = ctx.createLinearGradient(0, 0, size, size);
+        gradient.addColorStop(0, "#e74c3c");
+        gradient.addColorStop(1, "#c0392b");
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, size, size);
+
+        // White circle
+        ctx.fillStyle = "white";
+        ctx.beginPath();
+        ctx.arc(size / 2, size / 2, size / 2.5, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Red cross
+        ctx.fillStyle = "#e74c3c";
+        const crossWidth = size / 5;
+        const crossLength = size / 1.5;
+
+        // Horizontal bar
+        ctx.fillRect(
+          (size - crossLength) / 2,
+          (size - crossWidth) / 2,
+          crossLength,
+          crossWidth
+        );
+
+        // Vertical bar
+        ctx.fillRect(
+          (size - crossWidth) / 2,
+          (size - crossLength) / 2,
+          crossWidth,
+          crossLength
+        );
+
+        // Download
+        canvas.toBlob((blob) => {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `icon-${size}.png`;
+          a.click();
+        });
+      });
+
+      document.body.innerHTML =
+        "<h2>Icons generated! Check your downloads folder.</h2>";
+    </script>
+  </body>
+</html>

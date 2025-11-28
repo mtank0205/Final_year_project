@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Driver Mobile App</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .container {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        max-width: 400px;
+        width: 100%;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+
+      h1 {
+        color: #333;
+        font-size: 24px;
+        margin-bottom: 10px;
+        text-align: center;
+      }
+
+      .status {
+        text-align: center;
+        padding: 15px;
+        border-radius: 10px;
+        margin: 20px 0;
+        font-weight: 500;
+      }
+
+      .status.connected {
+        background: #d4edda;
+        color: #155724;
+      }
+
+      .status.disconnected {
+        background: #f8d7da;
+        color: #721c24;
+      }
+
+      .status.alert {
+        background: #ff4444;
+        color: white;
+        animation: pulse 1s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+      }
+
+      .info-card {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 10px;
+        margin: 15px 0;
+      }
+
+      .info-row {
+        display: flex;
+        justify-content: space-between;
+        margin: 8px 0;
+        font-size: 14px;
+      }
+
+      .info-label {
+        color: #666;
+      }
+
+      .info-value {
+        color: #333;
+        font-weight: 600;
+      }
+
+      .alert-box {
+        background: #fff3cd;
+        border-left: 4px solid #ffc107;
+        padding: 15px;
+        border-radius: 5px;
+        margin: 15px 0;
+        display: none;
+      }
+
+      .alert-box.show {
+        display: block;
+        animation: slideIn 0.3s ease-out;
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .alert-title {
+        font-weight: bold;
+        color: #856404;
+        margin-bottom: 5px;
+      }
+
+      .alert-message {
+        color: #856404;
+        font-size: 14px;
+      }
+
+      .btn {
+        width: 100%;
+        padding: 15px;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 15px;
+        transition: all 0.3s;
+      }
+
+      .btn-primary {
+        background: #667eea;
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: #5568d3;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+      }
+
+      .btn-danger {
+        background: #dc3545;
+        color: white;
+      }
+
+      .distance-indicator {
+        text-align: center;
+        padding: 20px;
+        margin: 20px 0;
+      }
+
+      .distance-value {
+        font-size: 48px;
+        font-weight: bold;
+        color: #667eea;
+        margin: 10px 0;
+      }
+
+      .distance-label {
+        color: #666;
+        font-size: 14px;
+      }
+
+      .proximity-bar {
+        width: 100%;
+        height: 8px;
+        background: #e0e0e0;
+        border-radius: 4px;
+        overflow: hidden;
+        margin-top: 10px;
+      }
+
+      .proximity-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #4caf50, #ffc107, #ff4444);
+        transition: width 0.3s;
+      }
+
+      .emergency-notification {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 0, 0, 0.95);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+        animation: emergencyFlash 0.5s infinite;
+      }
+
+      .emergency-notification.active {
+        display: flex;
+      }
+
+      @keyframes emergencyFlash {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.8;
+        }
+      }
+
+      .emergency-content {
+        text-align: center;
+        color: white;
+        padding: 40px;
+      }
+
+      .emergency-icon {
+        font-size: 100px;
+        margin-bottom: 20px;
+      }
+
+      .emergency-title {
+        font-size: 32px;
+        font-weight: bold;
+        margin-bottom: 15px;
+      }
+
+      .emergency-message {
+        font-size: 20px;
+        margin-bottom: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🚗 Driver App</h1>
+
+      <div id="status" class="status disconnected">Disconnected</div>
+
+      <div class="info-card">
+        <div class="info-row">
+          <span class="info-label">Driver ID:</span>
+          <span class="info-value" id="driverId">-</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Location:</span>
+          <span class="info-value" id="location">Getting location...</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Proximity Detection:</span>
+          <span class="info-value" id="proximityMethod">-</span>
+        </div>
+      </div>
+
+      <div class="distance-indicator">
+        <div class="distance-label">Distance to Ambulance</div>
+        <div class="distance-value" id="distanceValue">--</div>
+        <div class="distance-label">meters</div>
+        <div class="proximity-bar">
+          <div
+            class="proximity-fill"
+            id="proximityFill"
+            style="width: 0%"
+          ></div>
+        </div>
+      </div>
+
+      <div class="alert-box" id="alertBox">
+        <div class="alert-title" id="alertTitle"></div>
+        <div class="alert-message" id="alertMessage"></div>
+      </div>
+
+      <button class="btn btn-primary" id="connectBtn" onclick="connect()">
+        Connect as Driver
+      </button>
+    </div>
+
+    <div class="emergency-notification" id="emergencyNotification">
+      <div class="emergency-content">
+        <div class="emergency-icon">🚨</div>
+        <div class="emergency-title">EMERGENCY!</div>
+        <div class="emergency-message">AMBULANCE APPROACHING</div>
+        <div style="font-size: 24px; margin-top: 20px">
+          CLEAR THE WAY IMMEDIATELY
+        </div>
+      </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      let socket = null;
+      let driverId = "MOBILE_" + Math.random().toString(36).substr(2, 9);
+      let currentLat = null;
+      let currentLng = null;
+      let watchId = null;
+
+      document.getElementById("driverId").textContent = driverId;
+
+      // Check proximity detection method available
+      function checkProximityMethod() {
+        if ("bluetooth" in navigator) {
+          document.getElementById("proximityMethod").textContent = "Bluetooth";
+          return "bluetooth";
+        } else if ("geolocation" in navigator) {
+          document.getElementById("proximityMethod").textContent =
+            "GPS Location";
+          return "gps";
+        } else {
+          document.getElementById("proximityMethod").textContent = "Manual";
+          return "manual";
+        }
+      }
+
+      checkProximityMethod();
+
+      // Get user's location
+      function startLocationTracking() {
+        if ("geolocation" in navigator) {
+          watchId = navigator.geolocation.watchPosition(
+            (position) => {
+              currentLat = position.coords.latitude;
+              currentLng = position.coords.longitude;
+              document.getElementById(
+                "location"
+              ).textContent = `${currentLat.toFixed(4)}, ${currentLng.toFixed(
+                4
+              )}`;
+
+              if (socket && socket.connected) {
+                socket.emit("driver:location", {
+                  driverId: driverId,
+                  lat: currentLat,
+                  lng: currentLng,
+                  accuracy: position.coords.accuracy,
+                });
+              }
+            },
+            (error) => {
+              console.error("Location error:", error);
+              document.getElementById("location").textContent =
+                "Location unavailable";
+              // Use Koramangala default
+              currentLat = 12.935;
+              currentLng = 77.625;
+            },
+            {
+              enableHighAccuracy: true,
+              maximumAge: 0,
+              timeout: 5000,
+            }
+          );
+        } else {
+          // Default to Koramangala
+          currentLat = 12.935;
+          currentLng = 77.625;
+          document.getElementById("location").textContent = "Default location";
+        }
+      }
+
+      function connect() {
+        if (socket && socket.connected) {
+          disconnect();
+          return;
+        }
+
+        socket = io("http://localhost:3000");
+
+        socket.on("connect", () => {
+          console.log("Connected to server");
+          document.getElementById("status").className = "status connected";
+          document.getElementById("status").textContent = "Connected";
+          document.getElementById("connectBtn").textContent = "Disconnect";
+          document.getElementById("connectBtn").className = "btn btn-danger";
+
+          // Register as driver
+          socket.emit("driver:register", {
+            driverId: driverId,
+            lat: currentLat,
+            lng: currentLng,
+          });
+
+          startLocationTracking();
+        });
+
+        socket.on("registered", () => {
+          console.log("Registered as driver");
+          showAlert(
+            "Registration Successful",
+            "You will be notified when ambulances approach"
+          );
+        });
+
+        socket.on("proximity:update", (data) => {
+          console.log("Proximity update:", data);
+          updateDistance(data.distance);
+
+          // Trigger emergency notification if within 1cm (0.00001m in real world, but we'll use 10m for testing)
+          if (data.distance < 10) {
+            showEmergencyNotification();
+            vibrate();
+          } else {
+            hideEmergencyNotification();
+          }
+        });
+
+        socket.on("driver:alert", (payload) => {
+          console.log("Alert received:", payload);
+          showAlert(payload.title, payload.body);
+          showEmergencyNotification();
+          vibrate();
+          playSound();
+        });
+
+        socket.on("disconnect", () => {
+          console.log("Disconnected from server");
+          document.getElementById("status").className = "status disconnected";
+          document.getElementById("status").textContent = "Disconnected";
+          document.getElementById("connectBtn").textContent =
+            "Connect as Driver";
+          document.getElementById("connectBtn").className = "btn btn-primary";
+          hideEmergencyNotification();
+        });
+      }
+
+      function disconnect() {
+        if (socket) {
+          socket.disconnect();
+          socket = null;
+        }
+        if (watchId) {
+          navigator.geolocation.clearWatch(watchId);
+          watchId = null;
+        }
+      }
+
+      function updateDistance(distance) {
+        const distanceInMeters = distance.toFixed(2);
+        document.getElementById("distanceValue").textContent = distanceInMeters;
+
+        // Update proximity bar (inverse: closer = more filled)
+        const maxDistance = 100; // 100 meters
+        const percentage = Math.max(
+          0,
+          Math.min(100, (1 - distance / maxDistance) * 100)
+        );
+        document.getElementById("proximityFill").style.width = percentage + "%";
+      }
+
+      function showAlert(title, message) {
+        const alertBox = document.getElementById("alertBox");
+        document.getElementById("alertTitle").textContent = title;
+        document.getElementById("alertMessage").textContent = message;
+        alertBox.className = "alert-box show";
+
+        setTimeout(() => {
+          alertBox.className = "alert-box";
+        }, 5000);
+      }
+
+      function showEmergencyNotification() {
+        document.getElementById("emergencyNotification").className =
+          "emergency-notification active";
+      }
+
+      function hideEmergencyNotification() {
+        document.getElementById("emergencyNotification").className =
+          "emergency-notification";
+      }
+
+      function vibrate() {
+        if ("vibrate" in navigator) {
+          navigator.vibrate([200, 100, 200, 100, 200]);
+        }
+      }
+
+      function playSound() {
+        // Create audio context for emergency sound
+        try {
+          const audioContext = new (window.AudioContext ||
+            window.webkitAudioContext)();
+          const oscillator = audioContext.createOscillator();
+          const gainNode = audioContext.createGain();
+
+          oscillator.connect(gainNode);
+          gainNode.connect(audioContext.destination);
+
+          oscillator.frequency.value = 800;
+          oscillator.type = "sine";
+          gainNode.gain.value = 0.3;
+
+          oscillator.start();
+          setTimeout(() => oscillator.stop(), 500);
+        } catch (e) {
+          console.log("Audio not supported");
+        }
+      }
+
+      // Auto-connect on page load
+      window.addEventListener("load", () => {
+        setTimeout(connect, 500);
+      });
+    </script>
+  </body>
+</html>
