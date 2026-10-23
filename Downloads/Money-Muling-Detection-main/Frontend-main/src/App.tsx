@@ -8,7 +8,7 @@ import NetworkGraph from './components/NetworkGraph';
 import LedgerTable from './components/LedgerTable';
 import Dossier from './components/Dossier';
 import PanVerify from './components/PanVerify';
-import type { MuleNode, GraphData, DetectionResult } from './types';
+import type { MuleNode } from './types';
 import { Radar, ZoomIn, ZoomOut, Maximize2 } from 'lucide-react';
 
 function App() {
